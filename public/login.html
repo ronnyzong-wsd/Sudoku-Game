@@ -1,0 +1,22 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数独小游戏 - 登录</title><link rel="stylesheet" href="/auth.css"></head><body>
+<main class="auth-card">
+  <div class="brand"><div class="logo logo-img"><img src="/assets/zongfeng-logo.png" alt="zongfeng LOGO"></div><div><h1>数独小游戏</h1><p>在线数独学习与解题平台 · zongfeng</p></div></div>
+  <form id="loginForm" autocomplete="on">
+    <div class="field"><label for="username">用户名</label><input id="username" name="username" autocomplete="username" required autofocus></div>
+    <div class="field"><label for="password">密码</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+    <button id="loginBtn" type="submit">登录</button>
+    <div id="msg" class="msg" role="alert"></div>
+  </form>
+  <div class="tip">首次全新安装默认管理员：<b>admin</b>。初始密码请以 README 为准；首次登录后必须修改密码。</div>
+  <div class="small">© zongfeng 版权所有 · 未登录状态只会加载本登录页面，不会加载游戏主程序。</div>
+</main>
+<script>
+const form=document.getElementById('loginForm'),btn=document.getElementById('loginBtn'),msg=document.getElementById('msg');
+document.getElementById('username').value=localStorage.getItem('sudoku_last_user')||'';
+form.addEventListener('submit',async(e)=>{e.preventDefault();msg.textContent='';btn.disabled=true;btn.textContent='正在登录…';
+  const username=document.getElementById('username').value.trim(),password=document.getElementById('password').value;
+  try{const r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password}),credentials:'same-origin'});const d=await r.json();if(!r.ok)throw new Error(d.error||'登录失败');localStorage.setItem('sudoku_last_user',username);location.replace(d.next||'/app.html');}
+  catch(err){msg.textContent=err.message;document.getElementById('password').value='';document.getElementById('password').focus();}
+  finally{btn.disabled=false;btn.textContent='登录';}
+});
+</script></body></html>

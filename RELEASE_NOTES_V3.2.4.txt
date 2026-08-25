@@ -1,0 +1,23 @@
+Sudoku Studio Online V3.2.4
+
+本版重点：游戏辅助功能细粒度权限管理。
+
+新增独立权限：
+- 手工候选模式 candidate_mode
+- 自动候选 auto_notes
+- 撤销/重做 undo_redo
+- 三层提示 hints
+- 提示历史回看 hint_history
+- 游戏当前分析 cell_analysis
+- 全过程回放 replay
+
+保留独立权限：
+- 正常做题 play
+- 互动教学 learn
+- 自定义数独 custom
+- 题目生成器 generator
+- 自定义题详细分析 analysis
+- 排行榜 leaderboard
+- 每题提示次数 max_hints
+
+兼容性：旧用户权限自动与新默认权限合并，升级后不会因为新增权限字段而意外失去功能。

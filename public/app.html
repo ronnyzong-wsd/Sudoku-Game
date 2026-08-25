@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>数独小游戏</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-card">
+        <div class="brand-logo brand-logo-img"><img src="/assets/zongfeng-logo.png" alt="zongfeng LOGO"></div>
+        <div>
+          <div class="brand-title">数独小游戏</div>
+          <div class="brand-sub">Play · Learn · Analyze</div>
+        </div>
+      </div>
+      <nav class="nav" id="sideNav">
+        <button data-view="home" class="active"><span>🏠</span> 欢迎首页</button>
+        <button data-view="dashboard"><span>📊</span> 学习仪表盘</button>
+        <button data-view="game" data-perm="play"><span>🎯</span> 数独游戏</button>
+        <button data-view="learn" data-perm="learn"><span>🎓</span> 互动教学</button>
+        <button data-view="custom" data-perm="custom"><span>🧩</span> 自定义分析</button>
+        <button data-view="leaderboard" data-perm="leaderboard"><span>🏆</span> 排行榜</button>
+        <button data-view="admin" id="adminNav" hidden><span>🛠</span> 管理后台</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="copyright-card">
+          <div class="copyright-logo"><img src="/assets/zongfeng-logo.png" alt="zongfeng"></div>
+          <div><b>zongfeng</b><span>© 版权所有</span></div>
+        </div>
+        <div class="tiny">支持：多用户、自动保存、提示回看、教学动画、题库管理</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="top-title" id="viewTitle">欢迎首页</div>
+          <div class="top-sub" id="viewSub">现代酷炫在线数独学习平台</div>
+        </div>
+        <div class="userbox">
+          <div class="user-meta">
+            <span class="avatar" id="userAvatar">S</span>
+            <div>
+              <div id="userLabel"></div>
+              <div class="tiny" id="userRoleLabel"></div>
+            </div>
+          </div>
+          <button class="btn ghost" id="logoutBtn">退出登录</button>
+        </div>
+      </header>
+
+      <section id="view-home" class="view active">
+        <div class="hero hero-home">
+          <div>
+            <div class="eyebrow">数独小游戏 · zongfeng</div>
+            <h1 id="welcome">欢迎回来</h1>
+            <p class="hero-desc">多用户独立空间、自动保存断点续玩、渐进式三层提示、完整高级技巧库、教学专项练习、题库管理、学习分析和在线排行榜一体化。</p>
+            <div class="hero-actions hero-actions-main">
+              <button class="btn start-game-cta" id="heroStartBtn"><span class="start-icon">▶</span><span><strong>开始游戏</strong><small>选择难度，立即挑战</small></span></button>
+              <button class="btn primary" id="continueBtn">继续上次题目</button>
+              <button class="btn soft" id="dailyBtn">今日挑战</button>
+              <button class="btn soft" id="gotoDashboardBtn">查看仪表盘</button>
+            </div>
+          </div>
+          <div class="hero-glow">
+            <div class="glow-ring"></div>
+            <div class="glow-text">600+<small>内置题目</small></div>
+          </div>
+        </div>
+
+        <div class="metrics-grid" id="homeMetrics"></div>
+
+        <div class="cards three">
+          <div class="glass-card">
+            <div class="panel-title"><h3>开始游戏</h3><span class="badge">6个等级</span></div>
+            <p class="muted">随机题、生成题、每日挑战都支持自动保存与排行榜计分。</p>
+            <div class="field"><label>难度</label><select id="homeLevel"><option value="beginner">入门</option><option value="easy">简单</option><option value="medium" selected>中等</option><option value="hard">困难</option><option value="expert">专家</option><option value="master">大师</option></select></div>
+            <div class="toolbar compact"><button class="btn primary" id="newGameBtn">随机开始</button><button class="btn soft" id="generateBtn" data-perm="generator">生成新题</button></div>
+          </div>
+          <div class="glass-card">
+            <div class="panel-title"><h3>提示机制</h3><span class="badge">三层提示</span></div>
+            <ul class="feature-list">
+              <li>第1层：只告诉你该观察哪里</li>
+              <li>第2层：告诉你使用什么技巧</li>
+              <li>第3层：给出具体落子 / 删候选结论</li>
+            </ul>
+          </div>
+          <div class="glass-card">
+            <div class="panel-title"><h3>个人空间</h3><span class="badge">在线同步</span></div>
+            <div id="profileStats" class="muted">正在读取…</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-dashboard" class="view">
+        <div class="section-head">
+          <div>
+            <h2>用户成绩 / 学习分析仪表盘</h2>
+            <p class="muted">查看完成量、最佳成绩、平均耗时、教学进度以及各难度表现。</p>
+          </div>
+          <button class="btn soft" id="refreshDashboardBtn">刷新数据</button>
+        </div>
+        <div class="metrics-grid" id="dashMetrics"></div>
+        <div class="cards two">
+          <div class="glass-card">
+            <div class="panel-title"><h3>各难度完成情况</h3></div>
+            <div id="levelChart" class="bar-stack"></div>
+          </div>
+          <div class="glass-card">
+            <div class="panel-title"><h3>最近成绩</h3></div>
+            <div id="recentResults" class="result-list"></div>
+          </div>
+        </div>
+        <div class="cards one" id="adminStatsWrap" hidden>
+          <div class="glass-card">
+            <div class="panel-title"><h3>管理员总览</h3><span class="badge">Admin</span></div>
+            <div id="adminStats" class="metrics-grid inner"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-game" class="view">
+        <div class="section-head">
+          <div>
+            <div class="game-title-row"><h2 id="gameTitle">数独小游戏</h2><span class="zf-signature"><img src="/assets/zongfeng-logo.png" alt=""><b>zongfeng</b> ©</span></div>
+            <div class="status"><span id="timer">00:00</span><span id="mistakes">错误 0</span><span id="hintCount">提示 0/3</span><span id="saveState">已同步</span></div>
+          </div>
+          <div class="toolbar compact"><select id="gameLevel"><option value="beginner">入门</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option><option value="expert">专家</option><option value="master">大师</option></select><button class="btn soft" id="gameNewBtn">换一题</button></div>
+        </div>
+        <div class="game-layout">
+          <div class="game-left">
+            <div class="glass-card board-card">
+              <div class="game-workbench">
+                <div class="game-board-wrap">
+                  <div id="board" class="board neon-board game-board"></div>
+                </div>
+                <aside class="game-controls" aria-label="做题操作区">
+                  <div class="control-title">快速填写</div>
+                  <div class="num-pad side-num-pad" id="numPad"></div>
+                  <div class="control-title secondary">辅助操作</div>
+                  <div class="game-action-grid">
+                    <button class="btn soft" id="noteBtn">候选：关</button>
+                    <button class="btn soft" id="autoNotesBtn">自动候选</button>
+                    <button class="btn soft" id="undoBtn">撤销</button>
+                    <button class="btn soft" id="redoBtn">重做</button>
+                    <button class="btn danger wide-action" id="hintBtn">获取提示</button>
+                    <button class="btn soft wide-action" id="analyzeCellBtn">分析此格</button>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+          <div class="game-right">
+            <div class="glass-card" id="hintPanel">
+              <div class="panel-title"><h3>三层提示回看</h3><span class="badge" id="remainingHint">剩余 3</span></div>
+              <div id="hintList" class="hint-list"><div class="muted">还没有使用提示。</div></div>
+            </div>
+            <div class="glass-card" id="replayPanel">
+              <div class="panel-title"><h3>过程回放</h3><div class="toolbar compact"><button class="btn soft" id="replayBtn">打开</button></div></div>
+              <div class="replay-controls" id="replayControls" hidden><button class="btn soft" id="replayPrev">上一步</button><button class="btn soft" id="replayPlay">播放</button><button class="btn soft" id="replayNext">下一步</button><span id="replayPos" class="muted"></span></div>
+              <div id="replayBox" class="replay-list" hidden></div>
+            </div>
+            <div class="glass-card" id="currentAnalysisPanel">
+              <div class="panel-title"><h3>当前分析</h3></div>
+              <div id="cellAnalysis" class="muted">选中一个空格后可分析候选、排除原因和推荐观察方向。</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-learn" class="view">
+        <div class="section-head">
+          <div>
+            <h2>互动教学 + 专项练习</h2>
+            <p class="muted">逐步高亮、候选变化、动画演示，并可直接进入当前课程的专项练习题。</p>
+          </div>
+          <span class="badge" id="lessonProgressBadge">0 / 0</span>
+        </div>
+        <div class="learn-layout">
+          <div class="glass-card lesson-list" id="lessonList"></div>
+          <div class="glass-card">
+            <div class="lesson-head">
+              <div>
+                <div class="eyebrow" id="lessonChapter"></div>
+                <h2 id="lessonTitle">选择课程</h2>
+                <div class="muted" id="lessonDesc"></div>
+              </div>
+              <div class="toolbar compact">
+                <button class="btn primary" id="lessonPracticeBtn">专项练习</button>
+                <button class="btn soft" id="lessonCompleteBtn">标记完成</button>
+              </div>
+            </div>
+            <p id="lessonBody" class="lesson-body">请选择一节课程。</p>
+            <div class="lesson-stage">
+              <div id="lessonBoard" class="board neon-board lesson-board"></div>
+              <div class="lesson-explain">
+                <div class="step-badge" id="lessonStepBadge">演示</div>
+                <div id="lessonStepText">请选择一节课程。</div>
+                <div class="toolbar"><button class="btn soft" id="lessonPrev">上一步</button><button class="btn primary" id="lessonPlay">播放</button><button class="btn soft" id="lessonNext">下一步</button><button class="btn soft" id="lessonRestart">重播</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-custom" class="view">
+        <div class="section-head">
+          <div>
+            <h2>自定义数独分析</h2>
+            <p class="muted">支持 9×9 九宫格录入、81位文本输入、文件导入。录入后可做唯一性检查、难度估计和完整解题分析。</p>
+          </div>
+        </div>
+        <div class="cards two">
+          <div class="glass-card">
+            <div class="panel-title"><h3>九宫格录入</h3><span class="badge">保留文本录入</span></div>
+            <div id="customBoard" class="board neon-board custom-board"></div>
+            <div class="toolbar"><button class="btn soft" id="customClearBtn">清空九宫格</button><button class="btn soft" id="customSyncBtn">同步到文本框</button></div>
+            <div class="field"><label>81位输入（0 或 . 为空）</label><textarea id="customInput" placeholder="530070000... 共81位"></textarea></div>
+            <div class="toolbar wrap"><button class="btn primary" id="analyzeBtn">分析题目</button><button class="btn soft" id="customLoadTextBtn">从文本载入九宫格</button><label class="btn soft file-btn">导入文件<input id="customFile" type="file" accept=".txt,.json"></label></div>
+          </div>
+          <div class="glass-card">
+            <div class="panel-title"><h3>分析结果</h3><span class="badge">逻辑 + 搜索</span></div>
+            <div id="analysisResult" class="muted">等待输入。</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-leaderboard" class="view">
+        <div class="section-head">
+          <div>
+            <h2>排行榜</h2>
+            <p class="muted">按积分排序，用时、错误和提示次数都会影响结果。</p>
+          </div>
+          <select id="rankLevel"><option value="all">全部</option><option value="beginner">入门</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option><option value="expert">专家</option><option value="master">大师</option></select>
+        </div>
+        <div class="glass-card table-wrap">
+          <table class="table"><thead><tr><th>排名</th><th>玩家</th><th>难度</th><th>用时</th><th>错误</th><th>提示</th><th>积分</th></tr></thead><tbody id="rankBody"></tbody></table>
+        </div>
+      </section>
+
+      <section id="view-admin" class="view">
+        <div class="section-head">
+          <div>
+            <h2>管理员后台</h2>
+            <p class="muted">管理用户、权限和题库。题库支持单题新增、JSON 批量导入、启停与删除。</p>
+          </div>
+        </div>
+        <div class="cards two admin-top">
+          <div class="glass-card">
+            <div class="panel-title"><h3>创建用户</h3><span class="badge">权限可后续编辑</span></div>
+            <div class="field"><label>用户名</label><input id="newUsername"></div>
+            <div class="field"><label>显示名称</label><input id="newDisplay"></div>
+            <div class="field"><label>初始密码</label><input id="newPassword" type="password"></div>
+            <div class="field"><label>角色</label><select id="newRole"><option value="user">普通用户</option><option value="admin">管理员</option></select></div>
+            <button class="btn primary" id="createUserBtn">创建用户</button>
+          </div>
+          <div class="glass-card">
+            <div class="panel-title"><h3>题库新增 / 导入</h3><span class="badge">Admin Puzzle Bank</span></div>
+            <div class="grid2">
+              <div class="field"><label>题目编号</label><input id="puzzleCode"></div>
+              <div class="field"><label>标题</label><input id="puzzleTitle"></div>
+            </div>
+            <div class="grid2">
+              <div class="field"><label>难度</label><select id="puzzleLevel"><option value="beginner">入门</option><option value="easy">简单</option><option value="medium" selected>中等</option><option value="hard">困难</option><option value="expert">专家</option><option value="master">大师</option></select></div>
+              <div class="field"><label>标签（逗号分隔）</label><input id="puzzleTags" placeholder="教学,自定义"></div>
+            </div>
+            <div class="field"><label>Puzzle（81位）</label><textarea id="puzzlePuzzle"></textarea></div>
+            <div class="field"><label>Solution（可选，81位）</label><textarea id="puzzleSolution"></textarea></div>
+            <div class="toolbar wrap"><button class="btn primary" id="savePuzzleBtn">保存题目</button><label class="btn soft file-btn">导入JSON<input id="puzzleImportFile" type="file" accept=".json"></label><button class="btn soft" id="showPuzzleMgrBtn">刷新题库列表</button></div>
+          </div>
+        </div>
+        <div class="cards one">
+          <div class="glass-card table-wrap">
+            <div class="panel-title"><h3>用户与权限</h3><span class="badge">Users</span></div>
+            <table class="table"><thead><tr><th>用户</th><th>角色</th><th>状态</th><th>提示</th><th>权限摘要</th><th>操作</th></tr></thead><tbody id="userBody"></tbody></table>
+          </div>
+        </div>
+        <div class="cards one">
+          <div class="glass-card table-wrap">
+            <div class="panel-title"><h3>管理员题库</h3><span class="badge" id="puzzleCounts">0</span></div>
+            <div class="toolbar wrap filter-bar"><select id="adminPuzzleLevelFilter"><option value="">全部难度</option><option value="beginner">入门</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option><option value="expert">专家</option><option value="master">大师</option></select><input id="adminPuzzleQ" placeholder="搜索编号/标题/标签"><button class="btn soft" id="adminPuzzleSearchBtn">查询</button></div>
+            <table class="table"><thead><tr><th>编号</th><th>标题</th><th>难度</th><th>来源</th><th>线索数</th><th>标签</th><th>状态</th><th>操作</th></tr></thead><tbody id="puzzleBody"></tbody></table>
+          </div>
+
+        <div class="cards one">
+          <div class="glass-card table-wrap">
+            <div class="panel-title"><h3>系统日志 / 操作审计</h3><span class="badge" id="logCount">0 条</span></div>
+            <div class="toolbar wrap filter-bar">
+              <select id="logCategory"><option value="">全部类型</option><option value="operation">操作</option><option value="auth">认证</option><option value="admin">管理</option><option value="error">错误</option><option value="system">系统</option></select>
+              <select id="logModule"><option value="">全部模块</option><option value="auth">认证</option><option value="game">游戏</option><option value="puzzle">题库</option><option value="user">用户权限</option><option value="lesson">教学</option><option value="frontend">前端</option><option value="server">服务端</option></select>
+              <input id="logQ" placeholder="搜索用户/动作/详情/IP">
+              <button class="btn soft" id="logSearchBtn">查询</button><button class="btn soft" id="logRefreshBtn">刷新</button>
+            </div>
+            <table class="table"><thead><tr><th>时间</th><th>用户</th><th>类型</th><th>模块</th><th>动作</th><th>状态</th><th>详情</th><th>IP</th></tr></thead><tbody id="logBody"></tbody></table>
+          </div>
+        </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="mobile-nav">
+    <button data-view="home">首页</button>
+    <button data-view="dashboard">仪表盘</button>
+    <button data-view="game" data-perm="play">游戏</button>
+    <button data-view="learn" data-perm="learn">教学</button>
+    <button data-view="custom" data-perm="custom">分析</button>
+  </nav>
+
+  <div class="modal" id="permModal" hidden>
+    <div class="modal-card wide">
+      <div class="panel-title"><h2>编辑用户权限</h2><button class="icon-btn" id="permClose">×</button></div>
+      <div id="permUserTitle" class="muted"></div>
+      <div class="perm-grid" id="permGrid"></div>
+      <div class="grid2">
+        <div class="field"><label>每题提示上限</label><input type="number" id="permHints" min="0" max="999"></div>
+        <div class="field"><label>显示名称</label><input id="permDisplay"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>角色</label><select id="permRole"><option value="user">普通用户</option><option value="admin">管理员</option></select></div>
+        <div class="field"><label>账号状态</label><select id="permActive"><option value="1">启用</option><option value="0">停用</option></select></div>
+      </div>
+      <div class="toolbar wrap"><button class="btn primary" id="permSave">保存设置</button><button class="btn soft" id="permResetPassword">重置密码</button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/engine.js"></script>
+  <script src="/lessons.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

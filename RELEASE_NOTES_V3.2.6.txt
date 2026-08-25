@@ -1,0 +1,8 @@
+Sudoku Studio Online V3.2.6
+
+- Game board reduced to approximately the same visual size as the interactive lesson board.
+- Desktop game workspace changed to board-left / keypad-right layout.
+- Number keypad moved to right side for faster mouse/touch operation.
+- Candidate, auto-candidate, undo/redo, hint and cell-analysis controls moved to right operation panel.
+- Responsive rules: desktop keeps side operation panel; narrow screens automatically stack controls below the board.
+- Low-height desktop screens further shrink the board to keep primary controls in one viewport.

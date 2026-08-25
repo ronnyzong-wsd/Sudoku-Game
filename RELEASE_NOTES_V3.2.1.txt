@@ -1,0 +1,21 @@
+Sudoku Studio Online V3.2.2
+
+1. 修复数独游戏棋盘不显示
+- 修复 renderAll() 缺失导致的 JavaScript ReferenceError。
+- 统一棋盘和状态栏刷新入口：renderAll() -> renderBoard() + renderStatus()。
+- 开始新题、继续游戏、填数、清除、自动候选、撤销/重做均使用统一刷新入口。
+
+2. 新增系统日志 / 操作审计
+- SQLite 新增 audit_logs 审计日志表。
+- 记录登录成功、登录失败、退出、修改密码。
+- 记录用户创建、用户权限修改、密码重置等管理操作。
+- 记录题库新增、导入、更新、启停、删除。
+- 记录游戏填数、候选、清除、提示等前端游戏操作。
+- 记录服务端接口错误。
+- 自动捕获浏览器 JavaScript error 与 unhandled promise rejection。
+- 保存时间、用户、日志类型、模块、动作、状态、详情、IP。
+- 管理员后台增加日志查询，可按类型、模块、关键字筛选。
+
+3. 兼容性
+- 保持 V3.2 的登录架构、题库、权限、教学和用户数据库兼容。
+- Windows / Linux / Docker 启动方式保持不变。

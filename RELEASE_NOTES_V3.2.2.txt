@@ -1,0 +1,9 @@
+Sudoku Studio Online V3.2.3
+
+Fixes:
+- Added missing startTimer() implementation.
+- Added stopTimer() and unified timer shutdown.
+- Timer updates game elapsed seconds once per second.
+- Progress auto-saves every 5 seconds while a game is active.
+- Starting a new/resumed puzzle safely restarts the timer without duplicate intervals.
+- Completing a puzzle safely stops the timer.

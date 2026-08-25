@@ -1,0 +1,20 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>数独小游戏 V3.2.8</title><style>body{font-family:system-ui,"Microsoft YaHei";max-width:980px;margin:40px auto;line-height:1.75;padding:0 22px;color:#172033}code{background:#eef2ff;padding:2px 7px;border-radius:6px}h1,h2{color:#3b5bcc}</style></head><body>
+<h1>数独小游戏 V3.2.8</h1><p>基于 V3 已验证的服务器级登录隔离架构继续升级。本版重点为现代化界面、高级技巧、渐进式三层提示、专项教学、题库后台、用户学习分析及自定义九宫格录入。</p>
+<h2>核心新增</h2><ul>
+<li><b>现代酷炫 UI：</b>深色渐变、玻璃拟态、霓虹棋盘、响应式侧栏/移动导航。</li>
+<li><b>高级解题库：</b>Naked/Hidden Single、Locked Candidates、Pair/Triple/Quad、X-Wing、Skyscraper、Two-String Kite、XY-Wing、XYZ-Wing、W-Wing、Simple Coloring、Swordfish、Jellyfish、Unique Rectangle Type 1，并保留搜索兜底。</li>
+<li><b>高级步骤安全校验：</b>唯一解题目中，候选消除与落子在用于提示/教学前都会校验不会排除真实解。</li>
+<li><b>真正三层提示：</b>第1层只给观察方向，第2层解锁技巧，第3层显示具体落子/删候选；逐层解锁不额外扣提示额度，开启一个新提示才计1次。</li>
+<li><b>互动教学 + 专项练习：</b>动画高亮、候选变化、逐步播放和针对技巧的训练题。</li>
+<li><b>管理员题库后台：</b>单题新增、JSON批量导入、搜索、难度过滤、启停、删除；导入时校验81位格式、合法性和唯一解。</li>
+<li><b>学习分析仪表盘：</b>完成量、平均用时、最佳积分、提示使用、课程进度、各难度完成分布、最近成绩；管理员可查看系统总览。</li>
+<li><b>自定义数独：</b>9×9九宫格直接录入 + 81位/9行文本输入 + TXT/JSON文件导入，三种方式互相同步。</li>
+</ul>
+<h2>Windows</h2><p>解压到全新目录，双击 <code>start-windows.bat</code>，浏览器打开 <code>http://127.0.0.1:8080</code>。</p>
+<h2>Linux</h2><p><code>chmod +x start-linux.sh &amp;&amp; ./start-linux.sh</code></p>
+<h2>Docker</h2><p><code>docker compose up -d --build</code></p>
+<h2>首次管理员</h2><p>用户名：<code>admin</code><br>初始密码：<code>Sudoku@2026</code><br>首次登录必须修改密码。</p>
+<p><b>公网部署：</b>请更改管理员初始密码，并通过 Nginx/Caddy 启用 HTTPS，限制数据库目录访问并定期备份 <code>data/sudoku.db</code>。</p>
+<h2>V3.2.5 修复</h2><p>修复游戏棋盘 renderAll 错误；新增系统日志与操作审计，管理员后台可查询。</p>
+<section><h2>V3.2.5 细粒度权限</h2><p>管理员可逐用户独立控制：正常做题、互动教学、自定义数独、题目生成器、自定义题详细分析、手工候选、自动候选、撤销/重做、三层提示、提示历史回看、游戏当前分析、全过程回放、排行榜，以及每题提示次数。</p><p>涉及服务端数据的提示与历史接口同时执行服务端鉴权；前端辅助入口按权限自动隐藏。在线用户每30秒刷新一次权限，管理员变更无需重新创建账号。</p></section>
+<p><b>品牌：</b>数独小游戏 · © zongfeng 版权所有。</p></body></html>

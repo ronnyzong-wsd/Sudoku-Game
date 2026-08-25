@@ -1,0 +1,71 @@
+# ==========================================
+# 数独小游戏 - Git 忽略文件
+# ==========================================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# ---------- Python virtual environment ----------
+venv/
+.venv/
+env/
+ENV/
+
+# ---------- Runtime data ----------
+data/
+runtime-data/
+runtime/
+instance/
+
+# ---------- SQLite ----------
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+
+# ---------- Logs ----------
+logs/
+log/
+*.log
+
+# ---------- Temporary files ----------
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# ---------- Environment / secrets ----------
+.env
+.env.*
+!.env.example
+
+# ---------- IDE ----------
+.vscode/
+.idea/
+
+# ---------- Windows ----------
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------- macOS ----------
+.DS_Store
+
+# ---------- Linux ----------
+*~
+
+# ---------- Test / generated files ----------
+coverage/
+htmlcov/
+dist/
+build/
+
+# ---------- Local backup ----------
+backup/
+backups/
